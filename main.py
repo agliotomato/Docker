@@ -29,13 +29,23 @@ def save_courses(data):
 
 @app.get("/courses")
 def get_courses():
-    return load_courses()
+    try:
+        return load_courses()
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.post("/courses")
 def add_course(course: Course):
-    data = load_courses()
-    new_course = course.model_dump()
-    data.append(new_course)
-    save_courses(data)
-    return new_course
+    try:
+        data = load_courses()
+        new_course = course.model_dump()
+        data.append(new_course)
+        save_courses(data)
+        return {
+            "status": "success",
+            "message": "New course successfully registered.",
+            "data": new_course
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

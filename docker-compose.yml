@@ -4,5 +4,3 @@ services:
     ports:
       - "80:8000"
     restart: always
-    volumes:
-      - ./courses.json:/app/courses.json
